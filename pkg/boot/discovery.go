@@ -122,7 +122,7 @@ func (fp *discovery) UpsertCluster(ctx context.Context, tenant, cluster string, 
 	}
 
 	var (
-		newClusters = make([]*config.DataSourceCluster, 0, len(cfg.DataSourceClusters))
+		newClusters = make([]*config.DataSourceCluster, len(cfg.DataSourceClusters))
 		exist       = false
 	)
 
@@ -215,7 +215,7 @@ func (fp *discovery) UpsertGroup(ctx context.Context, tenant, cluster, group str
 	}
 
 	var (
-		newGroups = make([]*config.Group, 0, len(clusterCfg.Groups))
+		newGroups = make([]*config.Group, len(clusterCfg.Groups))
 		exist     = false
 	)
 	_ = reflect.Copy(reflect.ValueOf(newGroups), reflect.ValueOf(clusterCfg.Groups))
@@ -538,6 +538,10 @@ func (fp *discovery) InitTrace(ctx context.Context) error {
 
 func (fp *discovery) ListListeners(ctx context.Context) []*config.Listener {
 	return fp.options.Listeners
+}
+
+func (fp *discovery) GetServiceRegistry(ctx context.Context) *config.Registry {
+	return fp.options.Registry
 }
 
 func (fp *discovery) ListClusters(ctx context.Context, tenant string) ([]string, error) {
